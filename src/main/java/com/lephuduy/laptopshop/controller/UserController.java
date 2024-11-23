@@ -19,11 +19,19 @@ public class UserController {
     }
 
     @RequestMapping("/")
-    public String getHomePage(Model model) {
+    public String getUserPage(Model model) {
         String test = this.userService.handleHello();
         model.addAttribute("lephuduy", test);
         model.addAttribute("hoidanit", "hello model from jsp");
         return "hello";
+    }
+
+    @RequestMapping("/admin/user")
+    public String getHomePage(Model model) {
+        String test = this.userService.handleHello();
+        model.addAttribute("lephuduy", test);
+        model.addAttribute("hoidanit", "hello model from jsp");
+        return "/admin/user/create";
     }
 }
 
