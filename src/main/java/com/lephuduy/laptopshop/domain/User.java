@@ -34,11 +34,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getPassWord() {
+    public String getPassword() {
         return this.password;
     }
 
-    public void setPassWord(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -59,16 +59,22 @@ public class User {
     }
 
     // Constructors methods
-    public User() {
+    // public User() {
 
-    }
+    // }
 
-    public User(String id, String fullName, String password, String address, String phone, String email) {
-        this.id = id;
-        this.address = address;
-        this.email = email;
-        this.fullName = fullName;
-        this.phone = phone;
-        this.password = password;
+    // public User(String id, String fullName, String password, String address,
+    // String phone, String email) {
+    // this.id = id;
+    // this.address = address;
+    // this.email = email;
+    // this.fullName = fullName;
+    // this.phone = phone;
+    // this.password = password;
+    // }
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
+                + ", address=" + address + ", phone=" + phone + "]";
     }
 }

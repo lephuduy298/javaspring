@@ -2,12 +2,12 @@ package com.lephuduy.laptopshop.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.service.UserService;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
@@ -28,10 +28,14 @@ public class UserController {
 
     @RequestMapping("/admin/user")
     public String getHomePage(Model model) {
-        String test = this.userService.handleHello();
-        model.addAttribute("lephuduy", test);
-        model.addAttribute("hoidanit", "hello model from jsp");
+        model.addAttribute("newUser", new User());
         return "/admin/user/create";
+    }
+
+    @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
+    public String createHomePage(Model model, @ModelAttribute("newUser") User lephuduy) {
+        System.out.println("this is inf of the form" + lephuduy);
+        return "hello";
     }
 }
 
