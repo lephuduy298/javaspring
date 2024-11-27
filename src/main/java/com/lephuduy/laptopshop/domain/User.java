@@ -1,8 +1,16 @@
 package com.lephuduy.laptopshop.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class User {
     // 1 Attributes
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String email;
     private String password;
     private String fullName;
@@ -10,11 +18,11 @@ public class User {
     private String phone;
 
     // getter, setter methods
-    public String getId() {
+    public long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

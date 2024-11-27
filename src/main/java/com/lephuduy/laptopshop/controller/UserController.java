@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -20,8 +20,7 @@ public class UserController {
 
     @RequestMapping("/")
     public String getUserPage(Model model) {
-        String test = this.userService.handleHello();
-        model.addAttribute("lephuduy", test);
+        model.addAttribute("lephuduy", "test");
         model.addAttribute("hoidanit", "hello model from jsp");
         return "hello";
     }
@@ -35,21 +34,7 @@ public class UserController {
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     public String createHomePage(Model model, @ModelAttribute("newUser") User lephuduy) {
         System.out.println("this is inf of the form" + lephuduy);
+        this.userService.handleSaveUser(lephuduy);
         return "hello";
     }
 }
-
-// @RestController
-// public class UserController {
-
-// private UserService userService;
-
-// public UserController(UserService userService) {
-// this.userService = userService;
-// }
-
-// @GetMapping("")
-// public String getHomePage() {
-// return this.userService.handleHello();
-// }
-// }
