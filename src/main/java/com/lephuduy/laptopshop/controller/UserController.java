@@ -1,5 +1,7 @@
 package com.lephuduy.laptopshop.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.lephuduy.laptopshop.domain.User;
@@ -20,6 +22,8 @@ public class UserController {
 
     @RequestMapping("/")
     public String getUserPage(Model model) {
+        List<User> arrUsers = this.userService.getAllByEmail("leduyphucat@gmail.com");
+        System.out.println(arrUsers);
         model.addAttribute("lephuduy", "test");
         model.addAttribute("hoidanit", "hello model from jsp");
         return "hello";

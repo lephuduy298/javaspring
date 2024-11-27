@@ -1,5 +1,7 @@
 package com.lephuduy.laptopshop.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.repository.UserRepository;
@@ -10,6 +12,14 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public List<User> getAllUsers() {
+        return this.userRepository.findAll();
+    }
+
+    public List<User> getAllByEmail(String email) {
+        return this.userRepository.findByEmail(email);
     }
 
     public User handleSaveUser(User user) {
