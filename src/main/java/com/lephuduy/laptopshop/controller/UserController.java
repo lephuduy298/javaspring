@@ -20,25 +20,53 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping("/")
-    public String getUserPage(Model model) {
-        List<User> arrUsers = this.userService.getAllByEmail("leduyphucat@gmail.com");
-        System.out.println(arrUsers);
-        model.addAttribute("lephuduy", "test");
-        model.addAttribute("hoidanit", "hello model from jsp");
-        return "hello";
-    }
+    // @RequestMapping("/")
+    // public String getUserPage(Model model) {
+    // List<User> arrUsers =
+    // this.userService.getAllByEmail("leduyphucat@gmail.com");
+    // System.out.println(arrUsers);
+    // model.addAttribute("lephuduy", "test");
+    // model.addAttribute("hoidanit", "hello model from jsp");
+    // return "hello";
+    // }
+
+    // @RequestMapping("/admin/user")
+    // public String getHomePage(Model model) {
+    // model.addAttribute("newUser", new User());
+    // return "/admin/user/create";
+    // }
+
+    // @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
+    // public String createHomePage(Model model, @ModelAttribute("newUser") User
+    // lephuduy) {
+    // System.out.println("this is inf of the form" + lephuduy);
+    // this.userService.handleSaveUser(lephuduy);
+    // return "hello";
+    // }
+
+    // @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
+    // public String createHomePage(Model model, @ModelAttribute("newUser") User
+    // lephuduy) {
+    // return "/admin/user/create";
+    // }
 
     @RequestMapping("/admin/user")
-    public String getHomePage(Model model) {
+    public String getUserPage(Model model) {
+        List<User> users = this.userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "admin/user/listuser";
+    }
+
+    @RequestMapping("/admin/user/create")
+    public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
-        return "/admin/user/create";
+        return "admin/user/create";
     }
 
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-    public String createHomePage(Model model, @ModelAttribute("newUser") User lephuduy) {
+    public String createUserPage(Model model, @ModelAttribute("newUser") User lephuduy) {
         System.out.println("this is inf of the form" + lephuduy);
         this.userService.handleSaveUser(lephuduy);
-        return "hello";
+        return "redirect:/admin/user";
     }
 }
