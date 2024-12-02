@@ -8,6 +8,7 @@ import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.service.UserService;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -68,5 +69,17 @@ public class UserController {
         System.out.println("this is inf of the form" + lephuduy);
         this.userService.handleSaveUser(lephuduy);
         return "redirect:/admin/user";
+    }
+
+    @RequestMapping(value = "/admin/user/{id}")
+    public String createUserInfo(Model model, @PathVariable long id) {
+        model.addAttribute("user", this.userService.getUserById(id));
+        return "admin/user/show";
+    }
+
+    @RequestMapping(value = "/admin/user/update/{id}")
+    public String updateUserInfo(Model model, @PathVariable long id) {
+        model.addAttribute("newUser", new User());
+        return "admin/user/user-update";
     }
 }
