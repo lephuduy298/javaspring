@@ -7,10 +7,13 @@ import org.springframework.ui.Model;
 import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.service.UserService;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {
@@ -79,7 +82,26 @@ public class UserController {
 
     @RequestMapping(value = "/admin/user/update/{id}")
     public String updateUserInfo(Model model, @PathVariable long id) {
-        model.addAttribute("newUser", new User());
+        model.addAttribute("newUser", this.userService.getUserById(id));
         return "admin/user/user-update";
+    }
+
+    @PostMapping("/admin/user/update")
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User lephuduy) {
+        User currentUser = this.userService.getUserById(lephuduy.getId());
+        if (currentUser != null) {
+            currentUser.setPhone(lephuduy.getPhone());
+            currentUser.setAddress(lephuduy.getAddress());
+            currentUser.setFullName(lephuduy.getFullName());
+
+            this.userService.handleSaveUser(currentUser);
+        }
+        return "redirect:/admin/user";
+    }
+
+    @GetMapping("/admin/user/delete/{id}")
+    public String deleteUserInfo(Model model, @PathVariable long id) {
+        model.addAttribute("id", id);
+        return "admin/user/delete";
     }
 }
