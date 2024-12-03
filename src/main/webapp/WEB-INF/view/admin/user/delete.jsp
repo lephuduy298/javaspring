@@ -26,7 +26,13 @@
                             <div class="alert alert-danger" role="alert">
                                 Are you sure to delete user have id = ${id}
                             </div>
-                            <button class="btn btn-danger">Delete</button>
+                            <form:form action="/admin/user/delete" method="post" modelAttribute="newUser">
+                                <div class="mb-3" style="display: none;">
+                                    <label class="form-label">ID:</label>
+                                    <form:input value="${id}" type="text" class="form-control" path="id" />
+                                </div>
+                                <button class="btn btn-danger">Delete</button>
+                            </form:form>
                         </div>
                     </div>
 
