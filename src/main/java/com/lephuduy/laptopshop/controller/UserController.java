@@ -108,6 +108,7 @@ public class UserController {
         return "admin/user/delete";
     }
 
+    // @Transactional nếu muốn dùng deleteAUser với hàm deleteUserById
     @PostMapping("/admin/user/delete")
     public String postDeleteUser(Model model, @ModelAttribute("newUser") User lephuduy) {
         // this.userService.deleteAUser(lephuduy.getId());
