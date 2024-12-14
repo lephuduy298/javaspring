@@ -1,4 +1,4 @@
-package com.lephuduy.laptopshop.controller;
+package com.lephuduy.laptopshop.controller.admin;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class UserController {
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
         model.addAttribute("users", users);
-        return "admin/user/listuser";
+        return "admin/user/show";
     }
 
     @RequestMapping("/admin/user/create")
@@ -77,13 +77,13 @@ public class UserController {
     @RequestMapping(value = "/admin/user/{id}")
     public String createUserInfo(Model model, @PathVariable long id) {
         model.addAttribute("user", this.userService.getUserById(id));
-        return "admin/user/show";
+        return "admin/user/detail";
     }
 
     @RequestMapping(value = "/admin/user/update/{id}")
     public String updateUserInfo(Model model, @PathVariable long id) {
         model.addAttribute("newUser", this.userService.getUserById(id));
-        return "admin/user/user-update";
+        return "admin/user/update";
     }
 
     @PostMapping("/admin/user/update")

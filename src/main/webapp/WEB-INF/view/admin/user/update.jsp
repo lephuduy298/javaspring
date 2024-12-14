@@ -11,7 +11,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
                 <meta name="author" content="Hỏi Dân IT" />
-                <title>Delete - Hỏi Dân IT</title>
+                <title>Update - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -26,24 +26,37 @@
                                 <h1 class="mt-4">Manager Users</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Delete</li>
+                                    <li class="breadcrumb-item active">Update</li>
                                 </ol>
                                 <div class="mt-5">
                                     <div class="row">
-                                        <div class="col-12 mx-auto">
-                                            <h3>Delete user have id = ${id}</h3>
-                                            <hr>
-                                            <div class="alert alert-danger" role="alert">
-                                                Are you sure to delete user have id = ${id}
-                                            </div>
-                                            <form:form action="/admin/user/delete" method="post"
+                                        <div class="col-md-6 col-12 mx-auto">
+                                            <h3>Update user</h3>
+                                            <form:form action="/admin/user/update" method="post"
                                                 modelAttribute="newUser">
                                                 <div class="mb-3" style="display: none;">
                                                     <label class="form-label">ID:</label>
-                                                    <form:input value="${id}" type="text" class="form-control"
-                                                        path="id" />
+                                                    <form:input type="text" class="form-control" path="id" />
                                                 </div>
-                                                <button class="btn btn-danger">Delete</button>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Email:</label>
+                                                    <form:input type="email" class="form-control" path="email"
+                                                        disabled="true" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Full Name:</label>
+                                                    <form:input type="text" class="form-control" path="fullName" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Address: </label>
+                                                    <form:input type="text" class="form-control" path="address" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Phone Number:</label>
+                                                    <form:input type="text" class="form-control" path="phone" />
+                                                </div>
+
+                                                <button type="submit" class="btn btn-warning">Update</button>
                                             </form:form>
                                         </div>
                                     </div>
