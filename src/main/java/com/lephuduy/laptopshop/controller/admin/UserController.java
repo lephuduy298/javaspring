@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.lephuduy.laptopshop.domain.User;
+import com.lephuduy.laptopshop.service.UploadService;
 import com.lephuduy.laptopshop.service.UserService;
 
 import jakarta.servlet.ServletContext;
@@ -20,17 +21,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
-    private final ServletContext servletContext;
+    private final UploadService uploadService;
 
-    public UserController(UserService userService, ServletContext servletContext) {
+    public UserController(UploadService uploadService, UserService userService) {
         this.userService = userService;
-        this.servletContext = servletContext;
+        this.uploadService = uploadService;
     }
 
     // @RequestMapping("/")
@@ -80,27 +80,7 @@ public class UserController {
     public String createUserPage(Model model, @ModelAttribute("newUser") User lephuduy,
             @RequestParam("lephuduyFile") MultipartFile file) {
         // this.userService.handleSaveUser(lephuduy);
-        try {
-            byte[] bytes;
-            bytes = file.getBytes();
-            String rootPath = this.servletContext.getRealPath("/resources/images");
-
-            File dir = new File(rootPath + File.separator + "avatar");
-            if (!dir.exists())
-                dir.mkdirs();
-
-            // Create the file on server
-            File serverFile = new File(dir.getAbsolutePath() + File.separator +
-                    +System.currentTimeMillis() + "-" + file.getOriginalFilename());
-
-            BufferedOutputStream stream = new BufferedOutputStream(
-                    new FileOutputStream(serverFile));
-            stream.write(bytes);
-            stream.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        String avatar = this.uploadService.handleUploadFile(file, "avatar");
         return "redirect:/admin/user";
     }
 
