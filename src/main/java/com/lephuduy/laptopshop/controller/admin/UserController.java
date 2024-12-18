@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.lephuduy.laptopshop.domain.User;
@@ -27,10 +28,12 @@ public class UserController {
 
     private final UserService userService;
     private final UploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UploadService uploadService, UserService userService) {
+    public UserController(UploadService uploadService, UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // @RequestMapping("/")
@@ -79,8 +82,14 @@ public class UserController {
     @PostMapping(value = "/admin/user/create")
     public String createUserPage(Model model, @ModelAttribute("newUser") User lephuduy,
             @RequestParam("lephuduyFile") MultipartFile file) {
-        // this.userService.handleSaveUser(lephuduy);
         String avatar = this.uploadService.handleUploadFile(file, "avatar");
+        String hashPassword = this.passwordEncoder.encode(lephuduy.getPassword());
+
+        lephuduy.setAvatar(avatar);
+        lephuduy.setPassword(hashPassword);
+        lephuduy.setRole(this.userService.getRoleByName(lephuduy.getRole().getName()));
+        this.userService.handleSaveUser(lephuduy);
+
         return "redirect:/admin/user";
     }
 
@@ -97,12 +106,22 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User lephuduy) {
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User lephuduy,
+            @RequestParam("lephuduyFile") MultipartFile file) {
         User currentUser = this.userService.getUserById(lephuduy.getId());
         if (currentUser != null) {
             currentUser.setPhone(lephuduy.getPhone());
             currentUser.setAddress(lephuduy.getAddress());
             currentUser.setFullName(lephuduy.getFullName());
+            currentUser.setRole(this.userService.getRoleByName(lephuduy.getRole().getName()));
+
+            // update picture
+            String avatar = this.uploadService.handleUploadFile(file, "avatar");
+            if (file.isEmpty())
+                currentUser.setAvatar(lephuduy.getAvatar());
+            else {
+                currentUser.setAvatar(avatar);
+            }
 
             this.userService.handleSaveUser(currentUser);
         }
