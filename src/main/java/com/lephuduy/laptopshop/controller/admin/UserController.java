@@ -1,9 +1,5 @@
 package com.lephuduy.laptopshop.controller.admin;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,8 +8,6 @@ import org.springframework.ui.Model;
 import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.service.UploadService;
 import com.lephuduy.laptopshop.service.UserService;
-
-import jakarta.servlet.ServletContext;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;

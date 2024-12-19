@@ -23,12 +23,11 @@
             <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
             <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
             <!-- Customized Bootstrap Stylesheet -->
-            <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/client/css/bootstrap.min.css?v=1.1" rel="stylesheet">
 
             <!-- Template Stylesheet -->
-            <link href="/client/css/style.css" rel="stylesheet">
+            <link href="/client/css/style.css?v=1.1" rel="stylesheet">
 
         </head>
 
@@ -566,7 +565,7 @@
             <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
 
             <!-- Template Javascript -->
-            <script src="/client/js/main.js"></script>
+            <script src="/client/js/main.js?v=1.1"></script>
         </body>
 
         </html>
