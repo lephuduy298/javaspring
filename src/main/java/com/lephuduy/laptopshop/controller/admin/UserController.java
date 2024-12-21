@@ -5,9 +5,14 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+
 import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.service.UploadService;
 import com.lephuduy.laptopshop.service.UserService;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -74,8 +79,20 @@ public class UserController {
     }
 
     @PostMapping(value = "/admin/user/create")
-    public String createUserPage(Model model, @ModelAttribute("newUser") User lephuduy,
+    public String createUserPage(Model model,
+            @ModelAttribute("newUser") @Valid User lephuduy,
+            BindingResult newUserBindingResult,
             @RequestParam("lephuduyFile") MultipartFile file) {
+
+        List<FieldError> errors = newUserBindingResult.getFieldErrors();
+        for (FieldError error : errors) {
+            System.out.println(error.getField() + " - " + error.getDefaultMessage());
+        }
+
+        if (newUserBindingResult.hasErrors()) {
+            return "/admin/user/create";
+        }
+
         String avatar = this.uploadService.handleUploadFile(file, "avatar");
         String hashPassword = this.passwordEncoder.encode(lephuduy.getPassword());
 
@@ -103,7 +120,6 @@ public class UserController {
     public String postUpdateUser(Model model, @ModelAttribute("newUser") User lephuduy,
             @RequestParam(value = "lephuduyFile", required = false) MultipartFile file) {
         User currentUser = this.userService.getUserById(lephuduy.getId());
-        this.userService.handleSaveUser(currentUser);
         if (currentUser != null) {
             currentUser.setPhone(lephuduy.getPhone());
             currentUser.setAddress(lephuduy.getAddress());
@@ -115,6 +131,7 @@ public class UserController {
                 String avatar = this.uploadService.handleUploadFile(file, "avatar");
                 currentUser.setAvatar(avatar);
             }
+            this.userService.handleSaveUser(currentUser);
 
         }
         return "redirect:/admin/user";
