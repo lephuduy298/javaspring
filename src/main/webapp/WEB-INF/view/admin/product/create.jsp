@@ -45,32 +45,66 @@
                                     <div class="mt-5">
                                         <div class="row">
                                             <div class="col-md-6 col-12 mx-auto">
-                                                <h3>Create a user</h3>
+                                                <h3>Create a product</h3>
                                                 <hr>
-                                                <form:form action="/admin/user/create" method="post"
+                                                <form:form action="/admin/product/create" method="post"
                                                     modelAttribute="newProduct" class="row"
                                                     enctype="multipart/form-data">
 
                                                     <div class="mb-3 col-md-6 col-12">
+                                                        <c:set var="errorName">
+                                                            <form:errors path="name" cssClass="invalid-feedback" />
+                                                        </c:set>
                                                         <label class="form-label">Name:</label>
-                                                        <form:input type="text" class="form-control" path="name" />
+                                                        <form:input type="text"
+                                                            class="form-control ${not empty errorName ? 'is-invalid' : ''}"
+                                                            path="name" />
+                                                        ${errorName}
                                                     </div>
                                                     <div class="mb-3 col-md-6 col-12">
+                                                        <c:set var="errorPrice">
+                                                            <form:errors path="price" cssClass="invalid-feedback" />
+                                                        </c:set>
                                                         <label class="form-label">Price:</label>
-                                                        <form:input type="number" class="form-control" path="price" />
+                                                        <form:input type="number"
+                                                            class="form-control ${not empty errorPrice ? 'is-invalid' : ''}"
+                                                            path="price" />
+                                                        ${errorPrice}
+
                                                     </div>
                                                     <div class="mb-3 col-12">
+                                                        <c:set var="errorDetail">
+                                                            <form:errors path="detailDesc"
+                                                                cssClass="invalid-feedback" />
+                                                        </c:set>
                                                         <label class="form-label">Detail Description:</label>
                                                         <form:input style="height: 150px" type="text"
-                                                            class="form-control" path="detailDesc" />
+                                                            class="form-control ${not empty errorDetail ? 'is-invalid' : ''}"
+                                                            path="detailDesc" />
+                                                        ${errorDetail}
+
                                                     </div>
                                                     <div class="mb-3 col-md-6 col-12">
+                                                        <c:set var="errorShort">
+                                                            <form:errors path="shortDesc" cssClass="invalid-feedback" />
+                                                        </c:set>
                                                         <label class="form-label">Short Description:</label>
-                                                        <form:input type="text" class="form-control" path="shortDesc" />
+                                                        <form:input type="text"
+                                                            class="form-control ${not empty errorShort ? 'is-invalid' : ''}"
+                                                            path="shortDesc" />
+                                                        ${errorShort}
+
                                                     </div>
                                                     <div class="mb-3 col-md-6 col-12">
+                                                        <c:set var="errorQuantity">
+                                                            <form:errors path="quantity" cssClass="invalid-feedback" />
+                                                        </c:set>
                                                         <label class="form-label">Quantity: </label>
-                                                        <form:input type="text" class="form-control" path="quantity" />
+                                                        <form:input type="text"
+                                                            class="form-control ${not empty errorQuantity ? 'is-invalid' : ''}"
+                                                            path="quantity" />
+                                                        ${errorQuantity}
+
                                                     </div>
                                                     <div class="mb-3 col-md-6 col-12">
                                                         <label class="form-label">Factory: </label>
@@ -100,7 +134,7 @@
                                                     <div class="mb-3 col-md-6 col-12">
                                                         <label for="avatarFile" class="form-label">Image: </label>
                                                         <input class="form-control" type="file" id="avatarFile"
-                                                            accept=".png, .jpg, .jpeg" name="lephuduyFile" />
+                                                            accept=".png, .jpg, .jpeg" name="lephuduyProductFile" />
                                                     </div>
                                                     <div class="col-12 mb-3">
                                                         <img alt="avatar preview"

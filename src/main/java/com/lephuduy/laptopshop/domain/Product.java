@@ -5,6 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
@@ -13,11 +17,27 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private long id;
+
+    @NotNull
+    @Size(min = 2, message = "Tên sản phẩm không được để trống")
     private String name;
+
+    @NotNull
+    @DecimalMin(value = "0", inclusive = false, message = "Price phải lớn hơn không")
     private double price;
+
     private String image;
+
+    @NotNull
+    @NotEmpty(message = "detailDescription không được để trống")
     private String detailDesc;
+
+    @NotNull
+    @NotEmpty(message = "shortDescription không được để trống")
     private String shortDesc;
+
+    @NotNull
+    @DecimalMin(value = "0", inclusive = false, message = "Quantity phải lớn hơn không")
     private long quantity;
     private long sold;
     private String factory;

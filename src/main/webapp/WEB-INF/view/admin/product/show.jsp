@@ -47,13 +47,13 @@
                                                         <th scope="col">Action</th>
                                                     </tr>
                                                 </thead>
-                                                <!-- <tbody>
-                                                    <c:forEach var="user" items="${users}">
+                                                <tbody>
+                                                    <c:forEach var="pr" items="${products}">
                                                         <tr>
-                                                            <th>${user.id}</th>
-                                                            <td>${user.email}</td>
-                                                            <td>${user.fullName}</td>
-                                                            <td>${user.role.name}</td>
+                                                            <th>${pr.id}</th>
+                                                            <td>${pr.name}</td>
+                                                            <td>${pr.price}</td>
+                                                            <td>${pr.factory}</td>
                                                             <td>
                                                                 <a href="/admin/user/${user.id}"
                                                                     class="btn btn-success">View</a>
@@ -65,7 +65,7 @@
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
-                                                </tbody> -->
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
