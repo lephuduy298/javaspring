@@ -2,6 +2,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
+
             <!DOCTYPE html>
             <html lang="en">
 
@@ -11,9 +12,21 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
                 <meta name="author" content="Hỏi Dân IT" />
-                <title>User Information - Hỏi Dân IT</title>
+                <title>Dashboard - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+                <script>
+                    $(document).ready(() => {
+                        const avatarFile = $("#avatarFile");
+                        avatarFile.change(function (e) {
+                            const imgURL = URL.createObjectURL(e.target.files[0]);
+                            $("#avatarPreview").attr("src", imgURL);
+                            $("#avatarPreview").css({ "display": "block" });
+                        });
+                    }); 
+                </script>
             </head>
 
             <body class="sb-nav-fixed">
@@ -23,33 +36,32 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manager Users</h1>
+                                <h1 class="mt-4">Manage Product</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Detail</li>
+                                    <li class="breadcrumb-item"><a href="/admin/product">Product</a></li>
+                                    <li class="breadcrumb-item active">Delete</li>
                                 </ol>
                                 <div class="mt-5">
                                     <div class="row">
-                                        <div class="col-md-6 mx-auto">
-                                            <div class="d-flex justify-content-between">
-                                                <h2>User Information with id = ${id}</h2>
-                                            </div>
+                                        <div class="col-12 mx-auto">
+                                            <h3>Delete product have id = ${id}</h3>
                                             <hr>
-                                            <div class="card">
-                                                <img class="card-img-top" src="/images/avatar/${user.avatar}" alt="">
-                                                <div class="card-header">
-                                                    User Details
-                                                </div>
-                                                <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item">Id = ${user.id}</li>
-                                                    <li class="list-group-item">Email = ${user.email}</li>
-                                                    <li class="list-group-item">FullName = ${user.fullName}</li>
-                                                    <li class="list-group-item">Address = ${user.address}</li>
-                                                </ul>
+                                            <div class="alert alert-danger" role="alert">
+                                                Are you sure to delete product have id = ${id}
                                             </div>
-                                            <a href="/admin/user" class="btn btn-success mt-3">Back</a>
+                                            <form:form action="/admin/product/delete" method="post"
+                                                modelAttribute="newProduct">
+                                                <div class="mb-3" style="display: none;">
+                                                    <label class="form-label">ID:</label>
+                                                    <form:input value="${id}" type="text" class="form-control"
+                                                        path="id" />
+                                                </div>
+                                                <button class="btn btn-danger">Delete</button>
+                                            </form:form>
                                         </div>
                                     </div>
+
                                 </div>
 
                             </div>

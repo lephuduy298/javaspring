@@ -55,11 +55,11 @@
                                                             <td>${pr.price}</td>
                                                             <td>${pr.factory}</td>
                                                             <td>
-                                                                <a href="/admin/user/${user.id}"
+                                                                <a href="/admin/product/${pr.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <a href="/admin/user/update/${user.id}"
+                                                                <a href="/admin/product/update/${pr.id}"
                                                                     class="btn btn-warning">Update</a>
-                                                                <a href="/admin/user/delete/${user.id}"
+                                                                <a href="/admin/product/delete/${pr.id}"
                                                                     class="btn btn-danger">Delete</a>
 
                                                             </td>

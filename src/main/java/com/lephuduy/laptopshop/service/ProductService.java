@@ -12,11 +12,9 @@ import com.lephuduy.laptopshop.repository.RoleRepository;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
-    private final RoleRepository roleRepository;
 
-    public ProductService(ProductRepository productRepository, RoleRepository roleRepository) {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.roleRepository = roleRepository;
     }
 
     public Product handleSaveProduct(Product product) {
@@ -27,5 +25,13 @@ public class ProductService {
 
     public List<Product> fecthProducts() {
         return this.productRepository.findAll();
+    }
+
+    public Product getProductById(long id) {
+        return this.productRepository.findById(id);
+    }
+
+    public void deleteAProduct(long id) {
+        this.productRepository.deleteById(id);
     }
 }
