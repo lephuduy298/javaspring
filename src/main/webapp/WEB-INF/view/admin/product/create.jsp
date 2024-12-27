@@ -79,7 +79,7 @@
                                                                 cssClass="invalid-feedback" />
                                                         </c:set>
                                                         <label class="form-label">Detail Description:</label>
-                                                        <form:input style="height: 150px" type="text"
+                                                        <form:textarea type="text" style="height: 100px;"
                                                             class="form-control ${not empty errorDetail ? 'is-invalid' : ''}"
                                                             path="detailDesc" />
                                                         ${errorDetail}
