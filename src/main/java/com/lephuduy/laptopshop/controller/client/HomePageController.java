@@ -69,4 +69,10 @@ public class HomePageController {
         return "/client/auth/login";
     }
 
+    @GetMapping("/access_deny")
+    public String getDenyPage(Model model) {
+        // model.addAttribute("registerUser", new RegisterDTO());
+        return "/client/auth/access_deny";
+    }
+
 }

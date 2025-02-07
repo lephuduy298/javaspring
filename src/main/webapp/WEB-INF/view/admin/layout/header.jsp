@@ -22,12 +22,18 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <div class="text-center my-3">
+                            <c:out value="${pageContext.request.userPrincipal.name}" />
+                        </div>
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
 
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <form method="post" action="/logout">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <button class="dropdown-item" href="#">Logout</button>
+                        </form>
                     </ul>
                 </li>
             </ul>
