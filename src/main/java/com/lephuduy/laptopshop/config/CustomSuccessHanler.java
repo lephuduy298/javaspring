@@ -5,12 +5,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import com.lephuduy.laptopshop.domain.User;
+import com.lephuduy.laptopshop.service.UserService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,14 +23,27 @@ import jakarta.servlet.http.HttpSession;
 
 public class CustomSuccessHanler implements AuthenticationSuccessHandler {
 
+    @Autowired
+    private UserService userService;
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    protected void clearAuthenticationAttributes(HttpServletRequest request) {
+    protected void clearAuthenticationAttributes(HttpServletRequest request, Authentication authentication) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return;
         }
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+
+        // email
+        String email = authentication.getName();
+
+        // user
+        User user = this.userService.getUserByEmail(email);
+        if (user != null) {
+            session.setAttribute("fullName", user.getFullName());
+            session.setAttribute("avatar", user.getAvatar());
+        }
     }
 
     protected String determineTargetUrl(final Authentication authentication) {
@@ -56,7 +73,7 @@ public class CustomSuccessHanler implements AuthenticationSuccessHandler {
         }
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
-        clearAuthenticationAttributes(request);
+        clearAuthenticationAttributes(request, authentication);
     }
 
 }
