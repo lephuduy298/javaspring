@@ -1,12 +1,16 @@
 package com.lephuduy.laptopshop.controller.client;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.lephuduy.laptopshop.domain.CartDetail;
 import com.lephuduy.laptopshop.domain.Product;
+import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.service.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,13 +41,20 @@ public class ItemController {
 
         String email = (String) session.getAttribute("email");
 
-        this.productService.handleAddProductToCard(email, id);
+        this.productService.handleAddProductToCard(email, id, session);
 
         return "redirect:/";
     }
 
     @GetMapping("/cart")
     public String getCartPageString() {
+        // lấy email người dùng
+        // HttpSession session = request.getSession(false);
+        // String email = (String) session.getAttribute("email");
+
+        // List<CartDetail> cartDetails =
+        // this.productService.getAllCartDetailByEmail(email);
+        // model.addAttribute("cartDetails", cartDetails);
         return "client/cart/show";
     }
 

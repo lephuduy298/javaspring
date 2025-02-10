@@ -12,7 +12,7 @@ public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
 
     // void save(CartDetail cartDetail);
 
-    // CartDetail findByCartAndProduct(Cart cart, Product product);
+    CartDetail findByCartAndProduct(Cart cart, Product product);
 
-    // boolean existByCartAndProduct(Cart cart, Product product);
+    boolean existsByCartAndProduct(Cart cart, Product product);
 }
