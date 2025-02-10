@@ -76,7 +76,8 @@
                                                         <div class="rounded position-relative fruite-item">
                                                             <div class="fruite-img">
                                                                 <img src="/images/product/${pr.image}"
-                                                                    class="img-fluid w-100 rounded-top" alt="">
+                                                                    class="img-fluid w-100 rounded-top" alt=""
+                                                                    style="width: 306px; height: 306px; object-fit: cover;">
                                                             </div>
                                                             <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
                                                                 style="top: 10px; left: 10px;">Laptop</div>
@@ -86,16 +87,22 @@
                                                                     <a href="/product/${pr.id}">${pr.name}</a>
                                                                 </h4>
                                                                 <p style="font-size: 13px;">${pr.shortDesc}</p>
-                                                                <div class="d-flex flex-lg-wrap">
+                                                                <div class="d-flex flex-lg-wrap justify-content-center">
                                                                     <p style="font-size: 15px; text-align: center; width: 100%;"
                                                                         class="text-dark fw-bold mb-3">
                                                                         <fmt:formatNumber type="number"
                                                                             value="${pr.price}" /> đ
                                                                     </p>
-                                                                    <a href="#"
-                                                                        class="mx-auto border border-secondary rounded-pill px-3 text-primary"><i
-                                                                            class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                        Add to cart</a>
+                                                                    <form action="/add-product-to-cart/${pr .id}"
+                                                                        method="post">
+                                                                        <input type="hidden"
+                                                                            name="${_csrf.parameterName}"
+                                                                            value="${_csrf.token}" />
+                                                                        <button
+                                                                            class="mx-auto border border-secondary rounded-pill px-3 text-primary"><i
+                                                                                class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                            Add to cart</button>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>

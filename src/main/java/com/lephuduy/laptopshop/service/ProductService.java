@@ -4,17 +4,28 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.lephuduy.laptopshop.domain.Cart;
+import com.lephuduy.laptopshop.domain.CartDetail;
 import com.lephuduy.laptopshop.domain.Product;
 import com.lephuduy.laptopshop.domain.User;
+import com.lephuduy.laptopshop.repository.CartDetailRepository;
+import com.lephuduy.laptopshop.repository.CartRepository;
 import com.lephuduy.laptopshop.repository.ProductRepository;
 import com.lephuduy.laptopshop.repository.RoleRepository;
 
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final CartDetailRepository cartDetailRepository;
+    private final CartRepository cartRepository;
+    private final UserService userService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CartDetailRepository cartDetailRepository,
+            CartRepository cartRepository, UserService userService) {
         this.productRepository = productRepository;
+        this.cartDetailRepository = cartDetailRepository;
+        this.cartRepository = cartRepository;
+        this.userService = userService;
     }
 
     public Product handleSaveProduct(Product product) {
@@ -33,5 +44,33 @@ public class ProductService {
 
     public void deleteAProduct(long id) {
         this.productRepository.deleteById(id);
+    }
+
+    public void handleAddProductToCard(String email, long productId) {
+        // check user đã có cart chưa
+        User user = this.userService.getUserByEmail(email);
+        if (user != null) {
+            Cart cart = this.cartRepository.findByUser(user);
+
+            if (cart == null) {
+                Cart otherCart = new Cart();
+                otherCart.setUser(user);
+                otherCart.setSum(1);
+
+                cart = this.cartRepository.save(otherCart);
+            }
+
+            // save details cart
+            Product product = this.productRepository.findById(productId);
+
+            CartDetail cartDetail = new CartDetail();
+            cartDetail.setCart(cart);
+            cartDetail.setProduct(product);
+            cartDetail.setPrice(product.getPrice());
+            cartDetail.setQuantity(1);
+
+            this.cartDetailRepository.save(cartDetail);
+        }
+        // save cart
     }
 }
