@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.lephuduy.laptopshop.domain.CartDetail;
 import com.lephuduy.laptopshop.domain.Product;
+import com.lephuduy.laptopshop.domain.User;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -15,7 +16,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findById(long id);
 
     void deleteById(long id);
-
-    // List<CartDetail> findByEmail(String email);
 
 }
