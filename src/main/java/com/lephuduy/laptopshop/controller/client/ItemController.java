@@ -126,7 +126,7 @@ public class ItemController {
         User currentUser = new User();
         currentUser.setId(id);
 
-        this.productService.handlePlaceOrder(currentUser, receiverName, receiverAddress, receiverPhone);
+        this.productService.handlePlaceOrder(session, currentUser, receiverName, receiverAddress, receiverPhone);
 
         return "redirect:/thanks";
     }

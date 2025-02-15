@@ -141,19 +141,29 @@ public class ProductService {
         }
     }
 
-    public void handlePlaceOrder(User user, String receiverName, String receiverAddress, String receiverPhone) {
+    public void handlePlaceOrder(HttpSession session, User user, String receiverName, String receiverAddress,
+            String receiverPhone) {
         // tạo mới order và orderDetail
-        Order order = new Order();
-        order.setUser(user);
-        order.setReceiverName(receiverName);
-        order.setReceiverAddress(receiverAddress);
-        order.setReceiverPhone(receiverPhone);
-        order = this.orderRepository.save(order);
 
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
             List<CartDetail> cartDetails = cart.getCartDetails();
             if (cartDetails != null) {
+                // create order
+                Order order = new Order();
+                order.setUser(user);
+                order.setReceiverName(receiverName);
+                order.setReceiverAddress(receiverAddress);
+                order.setReceiverPhone(receiverPhone);
+                order = this.orderRepository.save(order);
+                order.setStatus("PENDING");
+                int sum = 0;
+                for (CartDetail cartDetail : cartDetails) {
+                    sum += cartDetail.getPrice();
+                }
+                order.setTotalPrice(sum);
+
+                // create cartdetail
                 for (CartDetail cartDetail : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
@@ -167,10 +177,12 @@ public class ProductService {
                 // delete cart and cartdetail
                 for (CartDetail cartDetail : cartDetails) {
                     this.cartDetailRepository.deleteById(cartDetail.getId());
-                    ;
                 }
 
                 this.cartRepository.deleteById(cart.getId());
+
+                // update session
+                session.setAttribute("sum", 0);
             }
         }
 
