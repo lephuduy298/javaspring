@@ -58,10 +58,10 @@
                                                             <label class="form-label">Status:</label>
                                                             <form:select class="form-select"
                                                                 aria-label="Default select example" path="status">
-                                                                <form:option value="Admin">PENDING</form:option>
-                                                                <form:option value="User">SHIP</form:option>
-                                                                <form:option value="User">COMPLETE</form:option>
-                                                                <form:option value="User">CANCLE</form:option>
+                                                                <form:option value="PENDING">PENDING</form:option>
+                                                                <form:option value="SHIP">SHIP</form:option>
+                                                                <form:option value="COMPLETE">COMPLETE</form:option>
+                                                                <form:option value="CANCLE">CANCLE</form:option>
 
                                                             </form:select>
                                                         </div>

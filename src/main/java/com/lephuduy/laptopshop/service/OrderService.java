@@ -6,14 +6,17 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.lephuduy.laptopshop.domain.Order;
+import com.lephuduy.laptopshop.repository.OrderDetailRepository;
 import com.lephuduy.laptopshop.repository.OrderRepository;
 
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, OrderDetailRepository orderDetailRepository) {
         this.orderRepository = orderRepository;
+        this.orderDetailRepository = orderDetailRepository;
     }
 
     public List<Order> findAllCart() {
@@ -27,5 +30,15 @@ public class OrderService {
     public void save(Order order) {
         // TODO Auto-generated method stub
         this.orderRepository.save(order);
+    }
+
+    public void deleteAOrderById(long id) {
+        // TODO Auto-generated method stub
+        this.orderRepository.deleteById(id);
+    }
+
+    public void deleteAOrderDetailById(long id) {
+        // TODO Auto-generated method stub
+        this.orderDetailRepository.deleteById(id);
     }
 }

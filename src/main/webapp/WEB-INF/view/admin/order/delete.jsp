@@ -23,21 +23,22 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manager Users</h1>
+                                <h1 class="mt-4">Order</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Delete</li>
+                                    <li class="breadcrumb-item active"><a href="/admin/order">Order</a></li>
+                                    <li class="breadcrumb-item active">View Detail</li>
                                 </ol>
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-12 mx-auto">
-                                            <h3>Delete user have id = ${id}</h3>
+                                            <h3>Delete order have id = ${id}</h3>
                                             <hr>
                                             <div class="alert alert-danger" role="alert">
-                                                Are you sure to delete user have id = ${id}
+                                                Are you sure to delete this order ?
                                             </div>
-                                            <form:form action="/admin/user/delete" method="post"
-                                                modelAttribute="newUser">
+                                            <form:form action="/admin/order/delete" method="post"
+                                                modelAttribute="newOrder">
                                                 <div class="mb-3" style="display: none;">
                                                     <label class="form-label">ID:</label>
                                                     <form:input value="${id}" type="text" class="form-control"
