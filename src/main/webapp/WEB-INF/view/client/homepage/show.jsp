@@ -93,7 +93,7 @@
                                                                         <fmt:formatNumber type="number"
                                                                             value="${pr.price}" /> đ
                                                                     </p>
-                                                                    <form action="/add-product-to-cart/${pr .id}"
+                                                                    <form action="/add-product-to-cart/${pr.id}"
                                                                         method="post">
                                                                         <input type="hidden"
                                                                             name="${_csrf.parameterName}"
