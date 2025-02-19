@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.lephuduy.laptopshop.domain.Order;
+import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.repository.OrderDetailRepository;
 import com.lephuduy.laptopshop.repository.OrderRepository;
 
@@ -40,5 +41,10 @@ public class OrderService {
     public void deleteAOrderDetailById(long id) {
         // TODO Auto-generated method stub
         this.orderDetailRepository.deleteById(id);
+    }
+
+    public List<Order> getAllByUser(User user) {
+        // TODO Auto-generated method stub
+        return this.orderRepository.findAllByUser(user);
     }
 }

@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.lephuduy.laptopshop.domain.Cart;
 import com.lephuduy.laptopshop.domain.CartDetail;
+import com.lephuduy.laptopshop.domain.Order;
 import com.lephuduy.laptopshop.domain.Product;
 import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.repository.CartRepository;
+import com.lephuduy.laptopshop.repository.OrderRepository;
+import com.lephuduy.laptopshop.service.OrderService;
 import com.lephuduy.laptopshop.service.ProductService;
 import com.lephuduy.laptopshop.service.UserService;
 
@@ -28,10 +31,12 @@ public class ItemController {
 
     private final ProductService productService;
     private final UserService userService;
+    private final OrderService orderService;
 
-    public ItemController(ProductService productService, UserService userService) {
+    public ItemController(ProductService productService, UserService userService, OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/product/{id}")
@@ -136,4 +141,18 @@ public class ItemController {
 
         return "client/cart/thanks";
     }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("email");
+        User user = this.userService.getUserByEmail(email);
+
+        List<Order> orders = this.orderService.getAllByUser(user);
+
+        model.addAttribute("orders", orders);
+
+        return "client/cart/order-history";
+    }
+
 }
