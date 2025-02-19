@@ -155,4 +155,11 @@ public class ItemController {
         return "client/cart/order-history";
     }
 
+    @GetMapping("/client/product/show")
+    public String getMethodName(Model model) {
+        List<Product> products = this.productService.fecthAllProducts();
+        model.addAttribute("products", products);
+        return "client/product/show";
+    }
+
 }
