@@ -44,12 +44,9 @@
 
                 <jsp:include page="../layout/header.jsp" />
 
-
-                <jsp:include page="../layout/banner.jsp" />
-
                 <!-- Fruits Shop Start-->
                 <div class="container py-5 mt-5 mx-auto">
-                    <div class="row g-4 mb-5">
+                    <div class="row g-4 mb-5 mt-3">
                         <div>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb fs-3">
@@ -189,9 +186,6 @@
                             </div>
                             <div class="col-12 col-md-9 text-center">
                                 <div class="row g-4">
-                                    <c:if test="${totalPages ==  0}">
-                                        <div>Không tìm thấy sản phẩm</div>
-                                    </c:if>
                                     <c:forEach var="product" items="${products}">
                                         <div class="col-md-6 col-lg-4">
                                             <div class="rounded position-relative fruite-item">
@@ -234,40 +228,38 @@
                                             </div>
                                         </div>
                                     </c:forEach>
-
-
-                                    <c:if test="${totalPages > 0}">
-                                        <div class="pagination d-flex justify-content-center mt-5">
-                                            <li class="page-item">
-                                                <a class="${1 eq currentPage ? 'disabled page-link' : 'page-link'}"
-                                                    href="/products?page=${currentPage - 1}${queryString}"
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination d-flex justify-content-center">
+                                            <li class="${currentPage eq 1 ? 'disabled page-item' : 'page-item'}">
+                                                <a class="page-link" href="/client/product/show?page=${currentPage - 1}"
                                                     aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
                                                 </a>
                                             </li>
-                                            <c:forEach begin="0" end="${totalPages - 1}" varStatus="loop">
-                                                <li class="page-item">
-                                                    <a class="${(loop.index + 1) eq currentPage ? 'active page-link' : 'page-link'}"
-                                                        href="/products?page=${loop.index + 1}${queryString}">
-                                                        ${loop.index + 1}
-                                                    </a>
-                                                </li>
+                                            <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                                                <li class="page-item"><a
+                                                        class="${(loop.index) eq currentPage ? 'active page-link' : 'page-link'}"
+                                                        href="/client/product/show?page=${loop.index}">
+                                                        <c:out value="${loop.index}" />
+                                                    </a></li>
                                             </c:forEach>
-                                            <li class="page-item">
-                                                <a class="${totalPages eq currentPage ? 'disabled page-link' : 'page-link'}"
-                                                    href="/products?page=${currentPage + 1}${queryString}"
+                                            <li
+                                                class="${currentPage eq totalPages ? 'disabled page-item' : 'page-item'}">
+                                                <a class="page-link" href="/client/product/show?page=${currentPage + 1}"
                                                     aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
                                                 </a>
                                             </li>
-
-                                        </div>
-                                    </c:if>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Fruits Shop End-->
 
