@@ -162,7 +162,8 @@ public class ItemController {
 
     @GetMapping("/client/product/show")
     public String getMethodName(Model model,
-            @RequestParam("page") Optional<String> optionalPage) {
+            @RequestParam("page") Optional<String> optionalPage,
+            @RequestParam("name") Optional<String> nameOptional) {
         int page = 1;
         try {
             if (optionalPage.isPresent()) {
@@ -174,8 +175,9 @@ public class ItemController {
             // TODO Auto-generated catch block
             // e.printStackTrace();
         }
+        String name = nameOptional.get();
         Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> products = this.productService.fecthProducts(pageable);
+        Page<Product> products = this.productService.fecthProductsWithSpec(pageable, name);
         List<Product> listpProducts = products.getContent();
         model.addAttribute("products", listpProducts);
         model.addAttribute("totalPages", products.getTotalPages());

@@ -1,10 +1,12 @@
 package com.lephuduy.laptopshop.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.lephuduy.laptopshop.domain.Cart;
@@ -12,6 +14,7 @@ import com.lephuduy.laptopshop.domain.CartDetail;
 import com.lephuduy.laptopshop.domain.Order;
 import com.lephuduy.laptopshop.domain.OrderDetail;
 import com.lephuduy.laptopshop.domain.Product;
+import com.lephuduy.laptopshop.domain.Product_;
 import com.lephuduy.laptopshop.domain.User;
 import com.lephuduy.laptopshop.repository.CartDetailRepository;
 import com.lephuduy.laptopshop.repository.CartRepository;
@@ -19,6 +22,7 @@ import com.lephuduy.laptopshop.repository.OrderDetailRepository;
 import com.lephuduy.laptopshop.repository.OrderRepository;
 import com.lephuduy.laptopshop.repository.ProductRepository;
 import com.lephuduy.laptopshop.repository.RoleRepository;
+import com.lephuduy.laptopshop.service.specification.ProductSpecs;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -46,6 +50,10 @@ public class ProductService {
         Product duy = this.productRepository.save(product);
         System.out.println(duy);
         return duy;
+    }
+
+    public Page<Product> fecthProductsWithSpec(Pageable pageable, String name) {
+        return this.productRepository.findAll(ProductSpecs.isLike(name), pageable);
     }
 
     public Page<Product> fecthProducts(Pageable pageable) {
