@@ -51,9 +51,93 @@ public class ProductService {
         System.out.println(duy);
         return duy;
     }
+    // name
+    // public Page<Product> fecthProductsWithSpec(Pageable pageable, String name) {
+    // return this.productRepository.findAll(ProductSpecs.isLike(name), pageable);
+    // }
 
-    public Page<Product> fecthProductsWithSpec(Pageable pageable, String name) {
-        return this.productRepository.findAll(ProductSpecs.isLike(name), pageable);
+    // min price
+    // public Page<Product> fecthProductsWithSpec(Pageable pageable, Double
+    // minPrice) {
+    // return this.productRepository.findAll(ProductSpecs.isMinPrice(minPrice),
+    // pageable);
+    // }
+
+    // max price
+    // public Page<Product> fecthProductsWithSpec(Pageable pageable, Double
+    // maxPrice) {
+    // return this.productRepository.findAll(ProductSpecs.isMaxPrice(maxPrice),
+    // pageable);
+    // }
+
+    // factory
+    // public Page<Product> fecthProductsWithSpec(Pageable pageable, String factory)
+    // {
+    // return this.productRepository.findAll(ProductSpecs.isFactory(factory),
+    // pageable);
+    // }
+
+    // in factory
+    // public Page<Product> fecthProductsWithSpec(Pageable pageable, List<String>
+    // factory) {
+    // return this.productRepository.findAll(ProductSpecs.isListFactory(factory),
+    // pageable);
+    // }
+
+    // in price
+    // public Page<Product> fecthProductsWithSpec(Pageable pageable, String price) {
+    // if (price.equals("10-den-15-trieu")) {
+    // double min = 10000000;
+    // double max = 15000000;
+    // return this.productRepository.findAll(ProductSpecs.isPrice(min, max),
+    // pageable);
+    // } else if (price.equals("15-den-30-trieu")) {
+    // double min = 15000000;
+    // double max = 30000000;
+    // return this.productRepository.findAll(ProductSpecs.isPrice(min, max),
+    // pageable);
+    // } else {
+    // return this.productRepository.findAll(pageable);
+
+    // }
+    // }
+
+    // in list range of price
+    public Page<Product> fecthProductsWithSpec(Pageable pageable, List<String> price) {
+        Specification<Product> combinedSpecs = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
+        int count = 0;
+        for (String p : price) {
+            double min = 0;
+            double max = 0;
+            switch (p) {
+                case "10-den-15-trieu":
+                    min = 10000000;
+                    max = 15000000;
+                    count++;
+                    break;
+                case "15-den-20-trieu":
+                    min = 15000000;
+                    max = 20000000;
+                    count++;
+                    break;
+                case "20-den-30-trieu":
+                    min = 20000000;
+                    max = 30000000;
+                    count++;
+                    break;
+            }
+
+            if (min != 0 && max != 0) {
+                Specification<Product> rangSpec = ProductSpecs.matchMultilePrice(min, max);
+                combinedSpecs = combinedSpecs.or(rangSpec);
+            }
+
+            if (count == 0) {
+                return this.productRepository.findAll(pageable);
+            }
+
+        }
+        return this.productRepository.findAll(combinedSpecs, pageable);
     }
 
     public Page<Product> fecthProducts(Pageable pageable) {

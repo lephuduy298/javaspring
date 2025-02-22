@@ -2,6 +2,7 @@ package com.lephuduy.laptopshop.controller.client;
 
 import java.lang.StackWalker.Option;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -163,23 +164,49 @@ public class ItemController {
     @GetMapping("/client/product/show")
     public String getMethodName(Model model,
             @RequestParam("page") Optional<String> optionalPage,
-            @RequestParam("name") Optional<String> nameOptional) {
-        int page = 1;
-        try {
-            if (optionalPage.isPresent()) {
-                page = Integer.parseInt(optionalPage.get());
-            } else {
+            @RequestParam("name") Optional<String> nameOptional,
+            @RequestParam("min-price") Optional<String> minPriceOptional,
+            @RequestParam("max-price") Optional<String> maxPriceOptional,
+            @RequestParam("factory") Optional<String> factoryOptional,
+            @RequestParam("price") Optional<String> priceOptional) {
 
-            }
-        } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-        }
-        String name = nameOptional.get();
-        Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> products = this.productService.fecthProductsWithSpec(pageable, name);
-        List<Product> listpProducts = products.getContent();
-        model.addAttribute("products", listpProducts);
+        // create pageable
+        int page = optionalPage.isPresent() ? Integer.parseInt(optionalPage.get()) : 1;
+        Pageable pageable = PageRequest.of(page - 1, 60);
+
+        // name
+        // String name = nameOptional.isPresent() ? nameOptional.get() : "";
+        // Page<Product> products = this.productService.fecthProductsWithSpec(pageable,
+        // name);
+
+        // min-price
+        // Double minPrice = minPriceOptional.isPresent() ?
+        // Double.parseDouble(minPriceOptional.get()) : 0;
+        // Page<Product> products = this.productService.fecthProductsWithSpec(pageable,
+        // minPrice);
+
+        // max price
+        // Double maxPrice = maxPriceOptional.isPresent() ?
+        // Double.parseDouble(maxPriceOptional.get()) : 0;
+        // Page<Product> products = this.productService.fecthProductsWithSpec(pageable,
+        // maxPrice);
+
+        // factory
+        // String factory = factoryOptional.isPresent() ? factoryOptional.get() : "";
+        // Page<Product> products = this.productService.fecthProductsWithSpec(pageable,
+        // factory);
+
+        // in factory
+        // List<String> factory = Arrays.asList(factoryOptional.get().split(","));
+        // Page<Product> products = this.productService.fecthProductsWithSpec(pageable,
+        // factory);
+
+        // in range of price
+        List<String> price = Arrays.asList(priceOptional.get().split(","));
+        Page<Product> products = this.productService.fecthProductsWithSpec(pageable, price);
+
+        List<Product> listProducts = products.getContent();
+        model.addAttribute("products", listProducts);
         model.addAttribute("totalPages", products.getTotalPages());
         model.addAttribute("currentPage", page);
         return "client/product/show";
