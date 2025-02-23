@@ -28,6 +28,10 @@ public class ProductSpecs {
         return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get(Product_.FACTORY)).value(factory);
     }
 
+    public static Specification<Product> isListTarget(List<String> target) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get(Product_.TARGET)).value(target);
+    }
+
     public static Specification<Product> isPrice(Double min, Double max) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.and(
                 criteriaBuilder.ge(root.get(Product_.PRICE), min),

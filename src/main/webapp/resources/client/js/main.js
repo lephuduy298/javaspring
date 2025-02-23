@@ -258,6 +258,7 @@
             priceArr.push($(this).val());
         });
 
+
         //sort order
         let sortValue = $('input[name="radio-sort"]:checked').val();
 

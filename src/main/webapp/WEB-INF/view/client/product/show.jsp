@@ -186,6 +186,9 @@
                             </div>
                             <div class="col-12 col-md-9 text-center">
                                 <div class="row g-4">
+                                    <c:if test="${totalPages == 0}">
+                                        <div>Không tìm thấy sản phẩm</div>
+                                    </c:if>
                                     <c:forEach var="product" items="${products}">
                                         <div class="col-md-6 col-lg-4">
                                             <div class="rounded position-relative fruite-item">
@@ -228,32 +231,39 @@
                                             </div>
                                         </div>
                                     </c:forEach>
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination d-flex justify-content-center">
-                                            <li class="${currentPage eq 1 ? 'disabled page-item' : 'page-item'}">
-                                                <a class="page-link" href="/client/product/show?page=${currentPage - 1}"
-                                                    aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                            </li>
-                                            <c:forEach begin="1" end="${totalPages}" varStatus="loop">
-                                                <li class="page-item"><a
-                                                        class="${(loop.index) eq currentPage ? 'active page-link' : 'page-link'}"
-                                                        href="/client/product/show?page=${loop.index}">
-                                                        <c:out value="${loop.index}" />
-                                                    </a></li>
-                                            </c:forEach>
-                                            <li
-                                                class="${currentPage eq totalPages ? 'disabled page-item' : 'page-item'}">
-                                                <a class="page-link" href="/client/product/show?page=${currentPage + 1}"
-                                                    aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                    <c:if test="${totalPages > 0}">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination d-flex justify-content-center">
+                                                <li class="${currentPage eq 1 ? 'disabled page-item' : 'page-item'}">
+                                                    <a class="page-link"
+                                                        href="/client/product/show?page=${currentPage - 1}"
+                                                        aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                </li>
+                                                <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                                                    <li class="page-item"><a
+                                                            class="${(loop.index) eq currentPage ? 'active page-link' : 'page-link'}"
+                                                            href="/client/product/show?page=${loop.index}">
+                                                            <c:out value="${loop.index}" />
+                                                        </a></li>
+                                                </c:forEach>
+
+
+                                                <li
+                                                    class="${currentPage eq totalPages ? 'disabled page-item' : 'page-item'}">
+                                                    <a class="page-link"
+                                                        href="/client/product/show?page=${currentPage + 1}"
+                                                        aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </c:if>
+
                                 </div>
                             </div>
                         </div>

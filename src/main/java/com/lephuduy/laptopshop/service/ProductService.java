@@ -16,6 +16,7 @@ import com.lephuduy.laptopshop.domain.OrderDetail;
 import com.lephuduy.laptopshop.domain.Product;
 import com.lephuduy.laptopshop.domain.Product_;
 import com.lephuduy.laptopshop.domain.User;
+import com.lephuduy.laptopshop.domain.dto.ProductCriteriaDTO;
 import com.lephuduy.laptopshop.repository.CartDetailRepository;
 import com.lephuduy.laptopshop.repository.CartRepository;
 import com.lephuduy.laptopshop.repository.OrderDetailRepository;
@@ -51,10 +52,31 @@ public class ProductService {
         System.out.println(duy);
         return duy;
     }
-    // name
-    // public Page<Product> fecthProductsWithSpec(Pageable pageable, String name) {
-    // return this.productRepository.findAll(ProductSpecs.isLike(name), pageable);
-    // }
+
+    public Page<Product> fecthProductsWithSpec(Pageable pageable, ProductCriteriaDTO productCriteriaDTO) {
+        Specification<Product> combinedSpec = Specification.where(null);
+        if (productCriteriaDTO.getFactory() == null && productCriteriaDTO.getPrice() == null
+                && productCriteriaDTO.getTarget() == null) {
+            this.productRepository.findAll(pageable);
+        }
+
+        if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
+            Specification<Product> currentSpec = ProductSpecs.isListFactory(productCriteriaDTO.getFactory().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+
+        if (productCriteriaDTO.getTarget() != null && productCriteriaDTO.getTarget().isPresent()) {
+            Specification<Product> currentSpec = ProductSpecs.isListTarget(productCriteriaDTO.getTarget().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+
+        if (productCriteriaDTO.getPrice() != null && productCriteriaDTO.getPrice().isPresent()) {
+            Specification<Product> currentSpec = this.buildPriceSpec(pageable, productCriteriaDTO.getPrice().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+
+        return this.productRepository.findAll(combinedSpec, pageable);
+    }
 
     // min price
     // public Page<Product> fecthProductsWithSpec(Pageable pageable, Double
@@ -103,27 +125,27 @@ public class ProductService {
     // }
 
     // in list range of price
-    public Page<Product> fecthProductsWithSpec(Pageable pageable, List<String> price) {
+    public Specification<Product> buildPriceSpec(Pageable pageable, List<String> price) {
         Specification<Product> combinedSpecs = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
-        int count = 0;
         for (String p : price) {
             double min = 0;
             double max = 0;
             switch (p) {
-                case "10-den-15-trieu":
+                case "duoi-10-trieu":
+                    min = 0;
+                    max = 10000000;
+                    break;
+                case "10-15-trieu":
                     min = 10000000;
                     max = 15000000;
-                    count++;
                     break;
-                case "15-den-20-trieu":
+                case "15-20-trieu":
                     min = 15000000;
                     max = 20000000;
-                    count++;
                     break;
-                case "20-den-30-trieu":
+                case "tren-20-trieu":
                     min = 20000000;
-                    max = 30000000;
-                    count++;
+                    max = 200000000;
                     break;
             }
 
@@ -132,12 +154,8 @@ public class ProductService {
                 combinedSpecs = combinedSpecs.or(rangSpec);
             }
 
-            if (count == 0) {
-                return this.productRepository.findAll(pageable);
-            }
-
         }
-        return this.productRepository.findAll(combinedSpecs, pageable);
+        return combinedSpecs;
     }
 
     public Page<Product> fecthProducts(Pageable pageable) {

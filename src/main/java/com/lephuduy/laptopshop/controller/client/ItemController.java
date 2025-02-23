@@ -21,6 +21,7 @@ import com.lephuduy.laptopshop.domain.CartDetail;
 import com.lephuduy.laptopshop.domain.Order;
 import com.lephuduy.laptopshop.domain.Product;
 import com.lephuduy.laptopshop.domain.User;
+import com.lephuduy.laptopshop.domain.dto.ProductCriteriaDTO;
 import com.lephuduy.laptopshop.repository.CartRepository;
 import com.lephuduy.laptopshop.repository.OrderRepository;
 import com.lephuduy.laptopshop.service.OrderService;
@@ -162,22 +163,17 @@ public class ItemController {
     }
 
     @GetMapping("/client/product/show")
-    public String getMethodName(Model model,
-            @RequestParam("page") Optional<String> optionalPage,
-            @RequestParam("name") Optional<String> nameOptional,
-            @RequestParam("min-price") Optional<String> minPriceOptional,
-            @RequestParam("max-price") Optional<String> maxPriceOptional,
-            @RequestParam("factory") Optional<String> factoryOptional,
-            @RequestParam("price") Optional<String> priceOptional) {
+    public String getMethodName(Model model, ProductCriteriaDTO productCriteriaDTO) {
 
         // create pageable
-        int page = optionalPage.isPresent() ? Integer.parseInt(optionalPage.get()) : 1;
+        int page = productCriteriaDTO.getPage().isPresent() ? Integer.parseInt(productCriteriaDTO.getPage().get()) : 1;
         Pageable pageable = PageRequest.of(page - 1, 60);
+        Page<Product> products = this.productService.fecthProductsWithSpec(pageable, productCriteriaDTO);
 
         // name
-        // String name = nameOptional.isPresent() ? nameOptional.get() : "";
-        // Page<Product> products = this.productService.fecthProductsWithSpec(pageable,
-        // name);
+        // String name = productCriteriaDTO.isPresent() ? productCriteriaDTO.get() : "";
+        // Page<Product> products =
+        // this.productService.fecthProductsWithSpec(pageable,name);
 
         // min-price
         // Double minPrice = minPriceOptional.isPresent() ?
@@ -202,8 +198,9 @@ public class ItemController {
         // factory);
 
         // in range of price
-        List<String> price = Arrays.asList(priceOptional.get().split(","));
-        Page<Product> products = this.productService.fecthProductsWithSpec(pageable, price);
+        // List<String> price = Arrays.asList(priceOptional.get().split(","));
+        // Page<Product> products = this.productService.fecthProductsWithSpec(pageable,
+        // price);
 
         List<Product> listProducts = products.getContent();
         model.addAttribute("products", listProducts);
