@@ -126,7 +126,9 @@ public class ProductService {
 
     // in list range of price
     public Specification<Product> buildPriceSpec(Pageable pageable, List<String> price) {
-        Specification<Product> combinedSpecs = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
+        // Specification<Product> combinedSpecs = (root, query, criteriaBuilder) ->
+        // criteriaBuilder.disjunction();
+        Specification<Product> combinedSpecs = Specification.where(null);
         for (String p : price) {
             double min = 0;
             double max = 0;
